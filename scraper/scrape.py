@@ -93,7 +93,7 @@ def scrape_stream():
                                 if key in stream_gauges:
                                     stream_gauges[key].labels(type=meter_type, phase=phase).set(value)
         except requests.exceptions.RequestException as e:
-            print('Exception fetching stream data: %s' % e)
+            print('Exception fetching meter stream data: %s' % e)
             time.sleep(5)
 
 
@@ -138,9 +138,12 @@ def main():
     while True:
         try:
             scrape_production_json()
+        except Exception as e:
+            print('Exception fetching production scrape data: %s' % e)
+        try:    
             scrape_inverters()
         except Exception as e:
-            print('Exception fetching scrape data: %s' % e)
+            print('Exception fetching inverter scrape data: %s' % e)
         time.sleep(60)
 
 
